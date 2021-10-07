@@ -1,0 +1,34 @@
+---
+# tasks file for httpserver
+- name: Directory creation
+  file:
+    path: /opt/build
+    state: directory
+  
+- name: Download the support code from the GitRepo
+  become: yes
+  git:
+     repo: 'https://github.com/shadrachdoc/httpserver.git'
+     dest: /opt/build/
+
+- name: Template for dockerfile  
+  template:  
+      src: dockerfile.j2  
+      dest: /opt/build/dockerfile
+
+- name: Build docker image 
+  docker_image:
+      name: httpserver:0.0.1
+      build:
+        path: /opt/build/
+      source: build
+
+- name: K8s deployment and service creation is progressing
+  become: false
+  command: "{{ item }}"
+  loop:
+     - minikube kubectl -- apply -f /opt/build/http_server-deployment.yaml
+     - minikube kubectl -- apply -f /opt/build/http_server-service.yaml
+     - minikube kubectl -- apply -f /opt/build/ingress.yaml  
+     - minikube kubectl -- get deployments
+     - minikube kubectl -- get services
