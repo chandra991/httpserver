@@ -28,12 +28,13 @@ spec:
             - --http0.9
           initialDelaySeconds: 10
           periodSeconds: 10
-#        livenessProbe:
-#          exec:
-#            command:
-#            - curl
-#            - http://localhost/healthcheck --http0.9
-#          initialDelaySeconds: 20
-#          periodSeconds: 5
+        livenessProbe:
+          exec:
+            command:
+            - curl
+            - http://localhost/healthcheck
+            - --http0.9
+          initialDelaySeconds: 20
+          periodSeconds: 5
         securityContext:
           allowPrivilegeEscalation: false
