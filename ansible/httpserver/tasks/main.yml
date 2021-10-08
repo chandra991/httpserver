@@ -23,7 +23,6 @@
   become: false
   command: "{{ item }}"
   loop:
-     - minikube addons enable ingress 
      - minikube kubectl -- apply -f /opt/build/http_server-deployment.yaml
      - minikube kubectl -- apply -f /opt/build/http_server-service.yaml
      - minikube kubectl -- apply -f /opt/build/ingress.yaml  
