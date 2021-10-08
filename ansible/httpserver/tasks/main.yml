@@ -12,11 +12,7 @@
      dest: /opt/build/
 
 - name: Build docker image 
-  docker_image:
-      name: httpserver:0.0.1
-      build:
-        path: /opt/build/
-      source: build
+  shell: docker build -t httpserver:0.0.5 /opt/build/.
 
 - name: K8s deployment and service creation is progressing
   become: false
