@@ -10,6 +10,8 @@
   git:
      repo: 'https://github.com/shadrachdoc/httpserver.git'
      dest: /opt/build/
+     update: yes
+     force: yes
 
 - name: Build docker image 
   shell: docker build -t httpserver:0.0.5 /opt/build/.
