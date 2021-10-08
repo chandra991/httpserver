@@ -5,6 +5,7 @@ metadata:
   labels:
     app: httpserver
 spec:
+  # How many pods we need for this config thos count have to mention here
   replicas: 2
   selector:
     matchLabels:
@@ -20,13 +21,14 @@ spec:
         ports:
         - containerPort: 80
           name: httpport
+        # configure probes readiness for checking pods health using command method
         readinessProbe:
           exec:
             command:
             - curl
             - http://localhost/healthcheck
             - --http0.9
-          initialDelaySeconds: 10
+          initialDelaySeconds: 10  
           periodSeconds: 10
         livenessProbe:
           exec:
@@ -36,5 +38,8 @@ spec:
             - --http0.9
           initialDelaySeconds: 20
           periodSeconds: 5
-        securityContext:
-          allowPrivilegeEscalation: false
+      #Running the process as non-root
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000
