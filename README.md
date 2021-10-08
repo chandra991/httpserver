@@ -6,7 +6,7 @@
 The application is presented as a http service that exposes a health check and endpoint. This simple Ruby web server serves on port 80. /healthcheck path returns "OK" and all other paths return "Well, hello there!"
 The IP to reach the website is the IP of Ingress server. Under the ingress, service has been configured using the labels to reach the corresponding pods on port 80 which was deployed using deployment.
 Description of files:
-dockerfile: This is the Docker configuration that can be used to build the container image for the application. The docker run service on port 80.
+dockerfile: This is the Docker configuration that can be used to build the container image for the application. This docker runs service on port 80. Since port 80 is default port, non-root users cannot use port 80. Hence `$ setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/ruby ` command is being used in dockerfile to make use of port 80.
 
 httpserver-deployment.yaml : This YAML configuration is to create Kubernetes deployment using the container image created by the dockerfile. The deployment defines a replica set of 2 pods and exposes port 80 to access the application.
 
