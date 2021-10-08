@@ -57,10 +57,15 @@ Below command gives IP address or use localhost to test the website. As we are u
 kubectl get ingress 
  
 
-to check the connectivity status 
-`$ curl http://<ip-address> `    
+to check the connectivity status
+
+`$ curl http://<ip-address> `
+
 Note: If you get any error as shown below
+
 curl: (1) Received HTTP/0.9 when not allowed
-please use your curl command with –http0.9 as mentioned below 
+
+please use your curl command with –http0.9 as mentioned below
+
 `$ curl http://<ip address> --http0.9`
 
