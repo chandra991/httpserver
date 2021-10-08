@@ -4,7 +4,10 @@
   file:
     path: /opt/build
     state: directory
-  
+
+- name: Active ingress minikube
+  command: minikube addons enable ingress
+
 - name: Download the support code from the GitRepo
   become: yes
   git:
@@ -25,3 +28,4 @@
      - minikube kubectl -- apply -f /opt/build/ingress.yaml  
      - minikube kubectl -- get deployments
      - minikube kubectl -- get services
+     - minikube kubectl -- get ingress
