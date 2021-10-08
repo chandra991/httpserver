@@ -4,8 +4,12 @@
 # Overview
  The repository contains the code to build the application (http_server) as a Docker container and deploy it in a Kubernetes cluster as a load balanced service.
 The application is presented as a http service that exposes a health check and endpoint. This simple Ruby web server serves on port 80. /healthcheck path returns "OK" and all other paths return "Well, hello there!"
+
+
 The IP to reach the website is the IP of Ingress server. Under the ingress, service has been configured using the labels to reach the corresponding pods on port 80 which was deployed using deployment.
+
 Description of files:
+
 dockerfile: This is the Docker configuration that can be used to build the container image for the application. This docker runs service on port 80. Since port 80 is default port, non-root users cannot use port 80. Hence `$ setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/ruby ` command is being used in dockerfile to make use of port 80.
 
 httpserver-deployment.yaml : This YAML configuration is to create Kubernetes deployment using the container image created by the dockerfile. The deployment defines a replica set of 2 pods and exposes port 80 to access the application.
@@ -19,7 +23,7 @@ ingress.yaml: This YAML configuration is to create Kubernetes ingress service, t
 •	Using a Linux system as the host for running the minikube cluster.
 
 # Strategy/Architecture:
-                        Request  Ingress (http://workernodeIP:80)  K8S service  K8S pods
+                        Request --> Ingress (http://workernodeIP:80) --> K8S service --> K8S pods
 In this application deployment process, Kubernetes components such as Deployment, Service, Ingress, and probes are being used. Ansible is being used to orchestrate the pipeline from cloning the code from the repository and deploy in the Kubernetes.,
 High availability is available by default in k8s deployment with replica set more than 2 and configured under k8s services using labels given in the deployment.
 Before a pod is being put in service to serve the request, readiness probe has been put in place to check whether the pod is ready to serve the request by hitting the /healthcheck endpoint.
